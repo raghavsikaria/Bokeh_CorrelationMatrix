@@ -1,5 +1,18 @@
 # Visualizing Correlation Matrix using Bokeh - Interactivity and JSCallBacks
-I have always been fascinated by what all we can achieve just by coding. Recently when I re-entered the ML space, wanted to do things right this time. So to ease any ML enthusiast's pain, have written some code using Bokeh - Python to get an interactive correlation matrix. I have used the infamous **WINE DATA SET** from the UCI repository.
+I have always been fascinated by what all we can achieve just by coding. Recently when I re-entered the ML space, wanted to do things right this time. So to ease any ML enthusiast's pain, have written some code using Bokeh - Python to get an interactive correlation matrix. I have used the infamous **WINE DATA SET** from the UCI repository. Here is what I came up with:
+
+![Correlation Matrix](correlation_matrix_gif.gif)
+
+
+### Objective
+To make a plot such that:
+
++ It visualises a correlation matrix
++ Provides interactivity the user in the form of:
+
+    + Choosing color scheme
+    + Giving user option to alter, save and other basic functionality
+
 
 To prepare and save a correlation matrix, you can refer to this sample code:
 ```python
@@ -21,16 +34,6 @@ corr_m = df.corr()
 ## SAVING CORRELATION MATRIX
 corr_m.to_csv('wine_correlation.csv')
 ```
-
-### Objective
-To make a plot such that:
-
-+ It visualises a correlation matrix
-+ Provides interactivity the user in the form of:
-
-    + Choosing color scheme
-    + Giving user option to alter, save and other basic functionality
-
 
 ## Acknowledgements
 Expressing forever gratefulness for all people associated with [UCI repository](https://archive.ics.uci.edu/ml/index.php).
