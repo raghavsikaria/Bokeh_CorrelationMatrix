@@ -1,3 +1,12 @@
+##########################################################
+# Author: Raghav Sikaria
+# LinkedIn: https://www.linkedin.com/in/raghavsikaria/
+# Github: https://github.com/thepirhana
+# Last Update: 5-4-2020
+# Project: Visualise a correlation matrix with User
+#           intercativity features
+##########################################################
+
 ## ALL IMPORTS
 import fileinput
 from math import pi
