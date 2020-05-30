@@ -20,24 +20,22 @@ from bokeh.models.callbacks import CustomJS
 from bokeh.palettes import inferno, magma, viridis, gray, cividis, turbo
 from bokeh import events
 
-OUTPUT_FILE = 'correlation_matrix.html'
 BOKEH_API_CDN = '<script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-api-1.4.0.js"></script>'
 BOKEH_TOOLS = "hover,save,pan,reset,wheel_zoom,box_select,tap,undo,redo,zoom_in,zoom_out,crosshair"
-output_file(OUTPUT_FILE)
 
 def get_reversed_list(list_object):
     ## UTILITY FUNCTION TO REVERSE A COLOR PALETTE LIST
     list_object.reverse()
     return list_object
 
-def carry_bokeh_correction():
+def carry_bokeh_correction(path_to_html):
     ## GETTING AROUND BOKEH - SWITCHING FROM MIN TO MAIN (BASED ON RECOMMENDATIONS ON SIMLILAR QUESTIONS)
     ##                      - ADDING BOKEH API CDN SINCE BOKEH MISSES IT BYDEFAULT (KNOWN ISSUE)
-    with fileinput.FileInput(OUTPUT_FILE, inplace=True, backup='.bak') as file:
+    with fileinput.FileInput(path_to_html, inplace=True, backup='.bak') as file:
         for line in file:
             print(line.replace('1.4.0.min', '1.4.0'), end='')
 
-    with open(OUTPUT_FILE) as f:
+    with open(path_to_html) as f:
         code = f.readlines() 
 
     new_code = []
@@ -46,10 +44,10 @@ def carry_bokeh_correction():
         if 'bokeh-widgets-1.4.0' in line:
             new_code.append(BOKEH_API_CDN)
 
-    with open(OUTPUT_FILE,'w') as f:
+    with open(path_to_html,'w') as f:
         f.writelines(new_code)
 
-def generate_correlation_graph(correlation_matrix_csv_path, title='Correlation Matrix',plot_height=1000, plot_width=1600):
+def generate_correlation_graph(correlation_matrix_csv_path, path_to_save, title='Correlation Matrix',plot_height=1000, plot_width=1600):
     ## PREPARING CORRELATION MATRIX
     df = pd.read_csv(correlation_matrix_csv_path)
     df = df.set_index('Unnamed: 0').rename_axis('parameters', axis=1)
@@ -117,8 +115,9 @@ def generate_correlation_graph(correlation_matrix_csv_path, title='Correlation M
     ## GENERATION FINAL PLOT BY BINDING PLOT AND SELECT OPTION
     final_plot = layout([[select],[p]])
     curdoc().add_root(final_plot)
+    output_file(path_to_save)
     save(final_plot)
+    carry_bokeh_correction(path_to_save)
 
 if __name__ == "__main__": 
     generate_correlation_graph('wine_correlation.csv')
-    carry_bokeh_correction()
